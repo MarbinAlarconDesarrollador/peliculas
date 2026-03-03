@@ -245,7 +245,7 @@ function addPoint(team) {
     // Ráfaga desde la izquierda
     // Dentro de tu función addPoint en app.js
     confetti({
-        particleCount: 500,
+        particleCount: 600,
         spread: 70,
         origin: { x: 0, y: 1 },
         colors: colors,
@@ -253,7 +253,7 @@ function addPoint(team) {
     });
    
     confetti({
-        particleCount: 200,
+        particleCount: 300,
         spread: 70,
         origin: { x: 0.5, y: 0.6 },
         colors: colors,
@@ -261,7 +261,7 @@ function addPoint(team) {
     });
 
     confetti({
-        particleCount: 500,
+        particleCount: 600,
         spread: 70,
         origin: { x: 1, y: 1 },
         colors: colors,
