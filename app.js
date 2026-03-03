@@ -242,9 +242,7 @@ function addPoint(team) {
     // 2. LANZAR CONFETI
     const colors = team === 1 ? ['#3498db', '#ffffff'] : ['#f1c40f', '#ffffff'];
 
-    // Ráfaga desde la izquierda
-    // Dentro de tu función addPoint en app.js
-    confetti({
+     confetti({
         particleCount: 600,
         spread: 70,
         origin: { x: 0, y: 1 },
