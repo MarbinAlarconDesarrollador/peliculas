@@ -1,3 +1,57 @@
+// --- MOTOR DE SONIDO (Web Audio API) ---
+const SoundEngine = {
+    ctx: new (window.AudioContext || window.webkitAudioContext)(),
+
+    playTic() {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.frequency.value = 800;
+        gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+    },
+
+    playAlarm() {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(100, this.ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(300, this.ctx.currentTime + 0.5);
+        osc.frequency.linearRampToValueAtTime(100, this.ctx.currentTime + 1);
+
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 1);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 1);
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]); // Vibración
+    },
+
+    playDing() {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.2);
+
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.5);
+    }
+};
+
 const movies = [
     { title: "Titanic", cat: "Drama / Romance" },
     { title: "El Exorcista", cat: "Terror" },
@@ -63,9 +117,9 @@ function toggleVisibility() {
 function toggleFsMovie() {
     const movieDisplay = document.getElementById('fs-movie');
     const toggleBtn = document.querySelector('.btn-fs-toggle');
-    
+
     movieDisplay.classList.toggle('hidden');
-    
+
     if (movieDisplay.classList.contains('hidden')) {
         toggleBtn.innerText = "👁️ REVELAR PELÍCULA";
     } else {
@@ -73,7 +127,7 @@ function toggleFsMovie() {
     }
 }
 
-function startTimer() {
+/*function startTimer() {
     clearInterval(timerInterval);
     document.getElementById('start-btn').disabled = true;
     document.getElementById('start-btn').style.opacity = "0.5";
@@ -99,6 +153,47 @@ function startTimer() {
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             closeFullscreen(); 
+            alert("¡TIEMPO AGOTADO!");
+            nextTurn();
+        }
+    }, 1000);
+}*/
+
+function startTimer() {
+    // Importante: Desbloquear el audio en móviles por interacción del usuario
+    if (SoundEngine.ctx.state === 'suspended') SoundEngine.ctx.resume();
+
+    clearInterval(timerInterval);
+    document.getElementById('start-btn').disabled = true;
+    document.getElementById('start-btn').style.opacity = "0.5";
+
+    const overlay = document.getElementById('fullscreen-overlay');
+    overlay.classList.remove('hidden');
+    document.getElementById('fs-movie').innerText = document.getElementById('movie-name').innerText;
+    document.getElementById('fs-movie').classList.add('hidden');
+
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+
+        // Lógica de Sonido Tic-Tac
+        if (timeLeft > 20) {
+            SoundEngine.playTic(); // Tic normal cada segundo
+        } else if (timeLeft <= 20 && timeLeft > 0) {
+            // Aceleramos el Tic-Tac (doble sonido)
+            SoundEngine.playTic();
+            setTimeout(() => SoundEngine.playTic(), 500);
+        }
+
+        if (timeLeft <= 15) {
+            document.getElementById('timer').style.color = "#ff4444";
+            document.getElementById('fs-timer').style.color = "#ff4444";
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            SoundEngine.playAlarm(); // Sonido de Alarma
+            closeFullscreen();
             alert("¡TIEMPO AGOTADO!");
             nextTurn();
         }
@@ -132,25 +227,60 @@ function updateTimerDisplay() {
     document.getElementById('fs-timer').innerText = timeString;
 }
 
+/*
 function addPoint(team) {
     scores[team]++;
     document.getElementById(`s${team}`).innerText = scores[team];
     nextTurn();
 }
+*/
+
+function addPoint(team) {
+    // 1. Sonido de victoria
+    SoundEngine.playDing();
+
+    // 2. LANZAR CONFETI
+    const colors = team === 1 ? ['#3498db', '#ffffff'] : ['#f1c40f', '#ffffff'];
+
+    // Ráfaga desde la izquierda
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { x: 0, y: 0.6 },
+        colors: colors
+    });
+
+    // Ráfaga desde la derecha
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { x: 1, y: 0.6 },
+        colors: colors
+    });
+
+    // 3. Sumar el punto y cambiar de turno
+    scores[team]++;
+    document.getElementById(`s${team}`).innerText = scores[team];
+
+    // Retrasamos un poco el cambio de turno para que vean el confeti
+    setTimeout(() => {
+        nextTurn();
+    }, 500);
+}
 
 function nextTurn() {
     currentTeam = currentTeam === 1 ? 2 : 1;
-    
+
     const nameDisplay = document.getElementById('team-name');
     const header = document.getElementById('header-bar');
-    
+
     nameDisplay.innerText = `EQUIPO ${currentTeam}`;
     nameDisplay.className = `t${currentTeam}-text`;
     header.className = `header t${currentTeam}`;
-    
+
     document.getElementById('box-1').classList.toggle('active', currentTeam === 1);
     document.getElementById('box-2').classList.toggle('active', currentTeam === 2);
-    
+
     resetTimer();
     document.getElementById('movie-name').classList.remove('visible');
     document.getElementById('movie-name').innerText = "PELÍCULA";
