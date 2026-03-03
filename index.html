@@ -13,8 +13,21 @@
 <body>
 
     <div class="header t1" id="header-bar">
-        <div id="turn-indicator">
-            TURNO: <b id="team-name" class="t1-text">EQUIPO 1</b>
+        <div class="score-board">
+            <div class="team-box active" id="box-1">
+                <div class="score-val t1-text" id="s1">0</div>
+                <small class="t1-text">EQUIPO 1</small>
+            </div>
+
+            <div id="turn-indicator">
+                <div style="font-size: 0.7rem; color: #888;">TURNO</div>
+                <b id="team-name" class="t1-text">EQUIPO 1</b>
+            </div>
+
+            <div class="team-box" id="box-2">
+                <div class="score-val t2-text" id="s2">0</div>
+                <small class="t2-text">EQUIPO 2</small>
+            </div>
         </div>
     </div>
 
@@ -40,17 +53,6 @@
         </div>
     </div>
 
-    <div class="score-board">
-        <div class="team-box active" id="box-1">
-            <div class="score-val t1-text" id="s1">0</div>
-            <small class="t1-text">EQUIPO 1</small>
-        </div>
-        <div class="team-box" id="box-2">
-            <div class="score-val t2-text" id="s2">0</div>
-            <small class="t2-text">EQUIPO 2</small>
-        </div>
-    </div>
-
     <div id="fullscreen-overlay" class="hidden">
         <div id="fs-timer">02:00</div>
 
@@ -60,6 +62,11 @@
             <button class="btn-fs-stop" onclick="stopTimerEarly()">🛑 DETENER</button>
         </div>
     </div>
+
+    <footer class="game-footer">
+        <p>Desarrollado por <strong>Marbin Alarcón</strong> &copy; 2026</p>
+        <p style="font-size: 0.75rem; margin-top: 5px;">Con colaboración de <strong>Creando Soft Ltda.</strong></p>
+    </footer>
 
     <script src="app.js"></script>
 </body>
