@@ -127,38 +127,6 @@ function toggleFsMovie() {
     }
 }
 
-/*function startTimer() {
-    clearInterval(timerInterval);
-    document.getElementById('start-btn').disabled = true;
-    document.getElementById('start-btn').style.opacity = "0.5";
-    
-    // 1. Mostrar pantalla completa y COPIAR el nombre de la película
-    const overlay = document.getElementById('fullscreen-overlay');
-    overlay.classList.remove('hidden');
-    document.getElementById('fs-movie').innerText = document.getElementById('movie-name').innerText;
-    
-    // Asegurar que la peli esté oculta al iniciar en full screen
-    document.getElementById('fs-movie').classList.add('hidden');
-    document.querySelector('.btn-fs-toggle').innerText = "👁️ REVELAR PELÍCULA";
-    
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        
-        if (timeLeft <= 15) {
-            document.getElementById('timer').style.color = "#ff4444";
-            document.getElementById('fs-timer').style.color = "#ff4444"; 
-        }
-        
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            closeFullscreen(); 
-            alert("¡TIEMPO AGOTADO!");
-            nextTurn();
-        }
-    }, 1000);
-}*/
-
 function startTimer() {
     // Importante: Desbloquear el audio en móviles por interacción del usuario
     if (SoundEngine.ctx.state === 'suspended') SoundEngine.ctx.resume();
@@ -227,13 +195,6 @@ function updateTimerDisplay() {
     document.getElementById('fs-timer').innerText = timeString;
 }
 
-/*
-function addPoint(team) {
-    scores[team]++;
-    document.getElementById(`s${team}`).innerText = scores[team];
-    nextTurn();
-}
-*/
 
 function addPoint(team) {
     // 1. Sonido de victoria
