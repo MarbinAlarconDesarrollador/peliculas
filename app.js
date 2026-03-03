@@ -249,17 +249,23 @@ function addPoint(team) {
         spread: 70,
         origin: { x: 0, y: 0.6 },
         colors: colors,
-        zIndex: 2000 // <--- ESTO ES CLAVE: Debe ser mayor al z-index del overlay
+        zIndex: 2000 
     });
-
-    // Ráfaga desde la derecha
-    // Dentro de tu función addPoint en app.js
+   
     confetti({
         particleCount: 100,
         spread: 70,
-        origin: { x: 0, y: 0.6 },
+        origin: { x: 0.5, y: 0.6 },
         colors: colors,
-        zIndex: 2000 // <--- ESTO ES CLAVE: Debe ser mayor al z-index del overlay
+        zIndex: 2000 
+    });
+
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { x: 1, y: 0.6 },
+        colors: colors,
+        zIndex: 2000 
     });
 
     // 3. Sumar el punto y cambiar de turno
