@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CineRuleta PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="header t1" id="header-bar">
+        <div id="turn-indicator">
+            TURNO: <b id="team-name" class="t1-text">EQUIPO 1</b>
+        </div>
+    </div>
+
+    <div class="timer-section">
+        <div class="timer-display" id="timer">02:00</div>
+        <div class="timer-controls">
+            <button class="btn-play" id="start-btn" onclick="startTimer()">▶️ INICIAR TIEMPO</button>
+            <button class="btn-next" onclick="nextTurn()">⏭️ SALTAR TURNO / CAMBIO</button>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="category-tag" id="category-display">CATEGORÍA</div>
+        <div id="movie-name">PELÍCULA</div>
+        <button class="btn-toggle" onclick="toggleVisibility()">👁️ VER / OCULTAR</button>
+    </div>
+
+    <div class="controls">
+        <button class="btn-spin" onclick="spin()">🎰 SIGUIENTE PELÍCULA</button>
+        <div class="score-buttons">
+            <button class="btn-score" onclick="addPoint(1)">PUNTO E1</button>
+            <button class="btn-score" onclick="addPoint(2)">PUNTO E2</button>
+        </div>
+    </div>
+
+    <div class="score-board">
+        <div class="team-box active" id="box-1">
+            <div class="score-val t1-text" id="s1">0</div>
+            <small class="t1-text">EQUIPO 1</small>
+        </div>
+        <div class="team-box" id="box-2">
+            <div class="score-val t2-text" id="s2">0</div>
+            <small class="t2-text">EQUIPO 2</small>
+        </div>
+    </div>
+
+    <div id="fullscreen-overlay" class="hidden">
+        <div id="fs-timer">02:00</div>
+
+        <div class="fs-movie-controls">
+            <div id="fs-movie" class="hidden">Película Oculta</div>
+            <button class="btn-fs-toggle" onclick="toggleFsMovie()">👁️ REVELAR PELÍCULA</button>
+            <button class="btn-fs-stop" onclick="stopTimerEarly()">🛑 DETENER</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

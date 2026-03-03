@@ -1,0 +1,18 @@
+{
+  "name": "CineRuleta Party",
+  "short_name": "CineRuleta",
+  "description": "Juego de mímica de películas para dos equipos.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#e50914",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/4221/4221419.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
